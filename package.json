@@ -1,0 +1,22 @@
+{
+  "name": "budgetbot",
+  "version": "1.0.0",
+  "description": "Web Dev 1 Final Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chwebb02/webDevBudgetBot.git"
+  },
+  "author": "Team 03",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chwebb02/webDevBudgetBot/issues"
+  },
+  "homepage": "https://github.com/chwebb02/webDevBudgetBot#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
