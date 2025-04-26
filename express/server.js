@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
@@ -16,7 +15,11 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-mongoose.connect(config.MONGO_URI, {
+//Database Connection
+
+const MONGO_URI = 'mongodb+srv://<db_username>:<db_password>@mizzouwebdevbudgetbotpr.uhgxvse.mongodb.net/<database_name>'
+
+mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
