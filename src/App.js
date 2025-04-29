@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import CreateTransaction from './pages/CreateTransaction'; // create soon
+import CreateBudgetItem from './pages/CreateBudgetItem';   // create soon
+import Login from './pages/Login';                         // create soon
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav className="bg-gray-800 p-4">
+        <ul className="flex space-x-4 text-white">
+          <li><Link to="/">Dashboard</Link></li>
+          <li><Link to="/createTransaction">Add Transaction</Link></li>
+          <li><Link to="/createBudgetItem">Add Budget Item</Link></li>
+          <li><Link to="/login">Login</Link></li>
+        </ul>
+      </nav>
+
+      <div className="p-6">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/createTransaction" element={<CreateTransaction />} />
+          <Route path="/createBudgetItem" element={<CreateBudgetItem />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
