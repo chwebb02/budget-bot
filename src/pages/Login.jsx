@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import * as API from 'api';
+import API from 'api';
 
 const Login = () => {
   const navigate = useNavigate();
