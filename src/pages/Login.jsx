@@ -23,7 +23,7 @@ const Login = () => {
     
     try {
       // Send login data to backend
-      const response = await API.default.post(API.API_ROUTES.login, formData);
+      const response = await api.post(API_ROUTES.login, formData);
       
       // Assume backend returns a token you can store
       localStorage.setItem('token', response.data.token);
