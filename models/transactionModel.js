@@ -7,6 +7,11 @@ const transactionSchema = new mongoose.Schema({
         required: true,
     },
 
+    budgetItemID:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'budgetItem', 
+    },
+
     date: {
         type: Date,
         required: true,
