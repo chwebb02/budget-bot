@@ -20,6 +20,18 @@ app.post('/user/register', function (req, res) {
     }
 });
 
+app.post('/transaction/create', async (req, res) => {
+    const { userId, budgetItemId, date, value, description, category } = req.body;
+    if (!userId || !date || !value || !description) {
+        res.status(400).send('Malformed request');
+    }
+
+    try {
+        const transaction = service.create_transaction(userId, budgetItemId, date, value, description, category);
+        res.status(200).send(transaction);
+    }
+});
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
