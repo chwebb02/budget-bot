@@ -3,7 +3,7 @@ import TransactionList from '../components/TransactionList';
 import ChartCard from '../components/ChartCard';
 import BudgetSummary from '../components/BudgetSummary';
 
-
+//TODO: Once axios is implemented, the mock data below will need to be removed.
 const mockTransactions = [
   { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
   { id: 2, description: 'Salary', amount: 2000, category: 'Income', date: '2025-04-18' },
