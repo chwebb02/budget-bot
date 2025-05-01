@@ -158,4 +158,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
+# IDEA IDE files
+.idea/
+.idea/*
+.idea/**
