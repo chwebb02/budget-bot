@@ -1,29 +1,23 @@
-const mongoose = require('mongoose');
-const config = require('./config');
+const service = require('./service');
 const express = require('express');
-const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
 
-
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/ping', function (req, res) {
- return res.send('pong');
-});
+// Define api here
+app.post('/user/register', function (req, res) {
+    const {username, password} = req.body;
+    if (!username || !password) {
+        res.status(400).send('Username and password are required');
+    }
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    try {
+        const user_id = service.register(username, password);
+        res.status(200).send(user_id);
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
-
-mongoose.connect(config.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => console.log('Successfully connected to MongoDB'))
-  .catch(err => {
-    console.error(' Something went wrong with the connection:', err);
-    process.exit(1);
-  });
 
 app.listen(process.env.PORT || 8080);
