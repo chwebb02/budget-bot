@@ -13,12 +13,14 @@ mongoose.connect(config.MONGO_URI, {
     });
 
 // Implement database CRUD operations here
-export async function get_user_by_username(username) {
+async function get_user_by_username(username) {
     // Function stub, needs to be implemented
     return null;
 }
 
-export async function create_user(username, hashed_password) {
+async function create_user(username, hashed_password) {
     // Function stub, needs to be implemented
     return 1;
 }
+
+module.exports = { get_user_by_username, create_user };
