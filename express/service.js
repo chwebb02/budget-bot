@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt')
 
 // Implementation of service layer
 async function register(username, password) {
-    const user = db.get_user_by_username(username)
-    if (user != null) {
+    const user = await db.get_user_by_username(username)
+    if (user) {
         throw new Error("Username already exists");
     }
 
@@ -14,8 +14,8 @@ async function register(username, password) {
 }
 
 async function login(username, password) {
-    const user = db.get_user_by_username(username)
-    if (user === null) {
+    let user = await db.get_user_by_username(username)
+    if (!user) {
         throw new Error("User does not exist");
     }
 
