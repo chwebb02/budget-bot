@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import * as API from 'api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Login = () => {
     
     try {
       // Send login data to backend
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await API.default.post(API.API_ROUTES.login, formData);
       
       // Assume backend returns a token you can store
       localStorage.setItem('token', response.data.token);
