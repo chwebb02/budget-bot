@@ -25,7 +25,9 @@ const ChartCard = ({ transactions }) => {
   return (
     <div className="bg-white p-4 rounded shadow">
       <h2 className="text-lg font-semibold mb-2">Spending by Category</h2>
-      <Pie data={data} />
+      <div style={{ width: '300px', height: '300px' }}>
+        <Pie data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+      </div>
     </div>
   );
 };
