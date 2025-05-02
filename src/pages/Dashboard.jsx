@@ -3,7 +3,6 @@ import TransactionList from '../components/TransactionList';
 import ChartCard from '../components/ChartCard';
 import BudgetSummary from '../components/BudgetSummary';
 
-//TODO: Once axios is implemented, the mock data below will need to be removed.
 const mockTransactions = [
   { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
   { id: 2, description: 'Salary', amount: 2000, category: 'Income', date: '2025-04-18' },
@@ -14,31 +13,29 @@ const mockTransactions = [
 ];
 
 const mockBudgets = [
-    { id: 1, category: 'Food', value: 400, description: 'Monthly groceries and dining' },
-    { id: 2, category: 'Housing', value: 1300, description: 'Rent and utilities' },
-    { id: 3, category: 'Transportation', value: 150, description: 'Gas and travel' },
-    { id: 4, category: 'Entertainment', value: 100, description: 'Movies and outings' }
-  ];
-  
+  { id: 1, category: 'Food', value: 400, description: 'Monthly groceries and dining' },
+  { id: 2, category: 'Housing', value: 1300, description: 'Rent and utilities' },
+  { id: 3, category: 'Transportation', value: 150, description: 'Gas and travel' },
+  { id: 4, category: 'Entertainment', value: 100, description: 'Movies and outings' }
+];
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    // Temporary mock data; later you will replace with axios.get() call
     setTransactions(mockTransactions);
   }, []);
 
-  // Calculate totals
   const income = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
   const expenses = transactions.filter(t => t.amount < 0).reduce((a, b) => a + b.amount, 0);
   const balance = income + expenses;
 
   return (
-    <div className="p-6">
+    <div className="w-full max-w-screen-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded shadow">
           <h2 className="text-lg font-semibold">Balance</h2>
           <p className="text-xl">${balance.toFixed(2)}</p>
@@ -53,14 +50,21 @@ const Dashboard = () => {
         </div>
       </div>
 
-        <div className="grid grid-cols-2 gap-4">
-            <ChartCard transactions={transactions} />
-            <TransactionList transactions={transactions.slice(0, 5)} />
-        </div>
-        <div className="grid grid-cols-1 gap-4 mt-6">
-            <BudgetSummary budgets={mockBudgets} />
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left (2/3): Transactions + Budget */}
+        <div className="lg:col-span-2 space-y-6">
+          <TransactionList transactions={transactions.slice(0, 5)} />
+          <BudgetSummary budgets={mockBudgets} />
         </div>
 
+        {/* Right (1/3): Chart */}
+        <div className="flex justify-end items-start">
+          <div className="w-[300px] h-[300px]">
+            <ChartCard transactions={transactions} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
