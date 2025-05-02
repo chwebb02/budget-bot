@@ -36,3 +36,52 @@
     transform: rotate(360deg);
   }
 }
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.summary {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card {
+  flex: 1;
+  background: #f4f4f4;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.income {
+  background: #d4f9d4;
+  color: #2a773d;
+}
+
+.expenses {
+  background: #fddcdc;
+  color: #993333;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.right-column {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
