@@ -27,6 +27,26 @@ async function login(username, password) {
     return user._id;
 }
 
+async function createTransaction(transaction) {
+    return await db.createTransaction(transaction);
+}
+
+async function getUserTransactions(userId) {
+    return await db.getTransactionsForUser(userId);
+}
+
+async function getTransactionById(transactionId) {
+    return await db.getTransactionById(transactionId);
+}
+
+async function updateTransaction(transaction) {
+    return await db.updateTransaction(transaction._id, transaction);
+}
+
+async function deleteTransaction(transactionId) {
+    await db.deleteTransaction(transactionId);
+}
+
 async function add_Budget_Item(userID, value, category, description){
      if (value <= 0){
         throw new Error ('Value must be greater than zero.');
@@ -49,4 +69,4 @@ async function add_Budget_Item(userID, value, category, description){
 }
 
 
-module.exports = { register, login, add_Budget_Item };
+module.exports = { register, login, createTransaction, getUserTransactions, getTransactionById, updateTransaction, deleteTransaction, add_Budget_Item };
