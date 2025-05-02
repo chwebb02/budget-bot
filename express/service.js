@@ -47,4 +47,26 @@ async function deleteTransaction(transactionId) {
     await db.deleteTransaction(transactionId);
 }
 
-module.exports = { register, login, createTransaction, getUserTransactions, getTransactionById, updateTransaction, deleteTransaction };
+async function add_Budget_Item(userID, value, category, description){
+     if (value <= 0){
+        throw new Error ('Value must be greater than zero.');
+     }
+
+     if (!userID){
+        throw new Error ('userID is required');
+     }
+
+     try{
+        const newItem = await db.create_Budget_Item(userID, value, category, description);
+        console.log ('Item created successfully!', newItem);
+        return newItem;
+
+     }catch (error){
+        console.error('Failed to create new budget item: ', error)
+        throw error;
+
+     }
+}
+
+
+module.exports = { register, login, createTransaction, getUserTransactions, getTransactionById, updateTransaction, deleteTransaction, add_Budget_Item };
