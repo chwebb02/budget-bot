@@ -19,12 +19,13 @@ async function login(username, password) {
         throw new Error("User does not exist");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    if (hashedPassword === user.password) {
-        return user._id;
+    const valid_password = await bcrypt.compare(password, user.password);
+    if(!valid_password) {
+        throw new Error ('Bad login')
     }
 
-    throw new Error("Bad login");
+    return user._id;
 }
+
 
 module.exports = { register, login };

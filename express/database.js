@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const config = require("./config");
+const User = require("./models/userModel.js");
 
 // Configure mongoose connection
 mongoose.connect(config.MONGO_URI, {
@@ -13,14 +14,30 @@ mongoose.connect(config.MONGO_URI, {
     });
 
 // Implement database CRUD operations here
+
 async function get_user_by_username(username) {
-    // Function stub, needs to be implemented
-    return null;
+    try{
+        return await User.findOne({ username });
+
+    } catch(error){
+        console.error("Username not found", error);
+        throw error;
+    }
 }
 
 async function create_user(username, hashed_password) {
-    // Function stub, needs to be implemented
-    return 1;
+    try{
+        const newUser = new User({ username, password: hashed_password});
+        const savedUser = await newUser.save();
+        return savedUser._id;
+
+    } catch (error){
+        console.error("Unable to create user:", error);
+        throw error;
+    }
+    
 }
+
+//logout option?--requires authentication token
 
 module.exports = { get_user_by_username, create_user };
