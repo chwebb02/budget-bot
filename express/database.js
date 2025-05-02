@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require("./config");
 const User = require("./models/userModel.js");
+const Transaction = require("./models/transactionModel.js");
 
 // Configure mongoose connection
 mongoose.connect(config.MONGO_URI, {
@@ -40,4 +41,31 @@ async function create_user(username, hashed_password) {
 
 //logout option?--requires authentication token
 
-module.exports = { get_user_by_username, create_user };
+async function createTransaction(transaction) {
+    // Function stub, needs implemented
+    return await new Transaction({ transaction }).save();
+}
+
+async function getTransactionsForUser(userId) {
+    // Function stub, needs implemented
+    return [];
+}
+
+async function getTransactionById(transactionId) {
+    // Function stub, needs implemented
+    return null;
+}
+
+async function updateTransaction(transactionId, transaction) {
+    // Function stub, needs implemented
+    return null;
+}
+
+async function deleteTransaction(transactionId) {
+    // Function stub, needs implemented
+    // Does not need a return statement in final implementation, just
+    // throw error if operation fails
+    return null;
+}
+
+module.exports = { get_user_by_username, create_user, createTransaction, getTransactionsForUser, getTransactionById, updateTransaction, deleteTransaction };

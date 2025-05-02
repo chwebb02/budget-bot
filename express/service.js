@@ -27,5 +27,24 @@ async function login(username, password) {
     return user._id;
 }
 
+async function createTransaction(transaction) {
+    return await db.createTransaction(transaction);
+}
 
-module.exports = { register, login };
+async function getUserTransactions(userId) {
+    return await db.getTransactionsForUser(userId);
+}
+
+async function getTransactionById(transactionId) {
+    return await db.getTransactionById(transactionId);
+}
+
+async function updateTransaction(transaction) {
+    return await db.updateTransaction(transaction._id, transaction);
+}
+
+async function deleteTransaction(transactionId) {
+    await db.deleteTransaction(transactionId);
+}
+
+module.exports = { register, login, createTransaction, getUserTransactions, getTransactionById, updateTransaction, deleteTransaction };
