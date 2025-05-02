@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api, { API_ROUTES } from '../api';
 
 const CreateBudgetItem = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const CreateBudgetItem = () => {
     
     try {
       // Send form data to backend
-      await axios.post('http://localhost:5000/api/budgets', formData);
+      await api.post(API_ROUTES.CreateBudgetItem, formData);
       alert('Budget item created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {

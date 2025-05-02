@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api, { API_ROUTES } from '../api';
 
 const CreateTransaction = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const CreateTransaction = () => {
     
     try {
       // Send form data to your backend
-      await axios.post('http://localhost:5000/api/transactions', formData);
+      await api.post(API_ROUTES.CreateTransaction, formData);
       alert('Transaction created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {
