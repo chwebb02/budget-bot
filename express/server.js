@@ -107,7 +107,7 @@ app.get('/transaction/:transactionId', async (req, res) => {
     }
 });
 
-app.put('/transaction/:transactionId', async (req, res) => {
+app.put('/transaction', async (req, res) => {
     const transaction = new Transaction(req.body);
     if (!transaction) {
         res.status(400).send('Malformed request');
