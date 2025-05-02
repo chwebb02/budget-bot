@@ -3,9 +3,13 @@ import axios from 'axios';
 export const API_BASE_URL = 'http://localhost:8080'; 
 
 export const API_ROUTES = {
-  login: '/api/auth/login',
-  register: '/api/auth/register',
-  transactions: '/api/transactions',
+  login: '/user/login',
+  register: '/user/register',
+  createTransaction: '/transaction/create',
+  getUserTransactions: (userId) => `/user/${userId}/transactions`,
+  getTransaction: (transactionId) => `transaction/${transactionId}`,
+  updateTransaction: '/transaction',
+  deleteTransaction: (transactionId) => `transaction/${transactionId}`,
   budgets: '/api/budgets'
 };
 
