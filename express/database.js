@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require("./config");
 const User = require("./models/userModel.js");
+const budgetItem = require("./models/budgetItemModel.js")
 
 // Configure mongoose connection
 mongoose.connect(config.MONGO_URI, {
@@ -15,6 +16,7 @@ mongoose.connect(config.MONGO_URI, {
 
 // Implement database CRUD operations here
 
+//User CRUD
 async function get_user_by_username(username) {
     try{
         return await User.findOne({ username });
@@ -27,9 +29,9 @@ async function get_user_by_username(username) {
 
 async function create_user(username, hashed_password) {
     try{
-        const newUser = new User({ username, password: hashed_password});
+        const newUser = new User({ username: username, password: hashed_password});
         const savedUser = await newUser.save();
-        return savedUser._id;
+        return savedUser;
 
     } catch (error){
         console.error("Unable to create user:", error);
@@ -40,4 +42,84 @@ async function create_user(username, hashed_password) {
 
 //logout option?--requires authentication token
 
-module.exports = { get_user_by_username, create_user };
+//Budget Item CRUD
+
+//Create a budget item
+async function create_Budget_Item(userID, value, category, description) {
+    try {
+      const newBudgetItem = new budgetItem({
+        userID,
+        value,
+        category,
+        description,
+      });
+      const savedItem = await newBudgetItem.save();
+      return savedItem;
+    } catch (error) {
+      console.error('Error creating budget item: ', error);
+      throw error;
+    }
+  }
+
+  //Get a Budget Item by User ID
+  async function get_Budget_Item_UserID(userID) {
+    try {
+      const budgetItems = await budgetItem.find({userID}).exec();
+      return budgetItems;
+    } catch (error) {
+      console.error('Unable to fetch budget item with specified ID: ', error);
+      throw error;
+    }
+  }
+
+  //Get a Budget Item by Budget ID
+  async function get_Budget_Item__ItemID(id) {
+    try {
+      const budgetItems = await budgetItem.findOne({_id: id}).exec();
+      return budgetItems;
+    } catch (error) {
+      console.error('Unable to fetch budget item with specified ID: ', error);
+      throw error;
+    }
+  }
+ 
+
+  //Delete Budget Item
+  async function delete_budgetItem(id, userID){
+    try{
+        const deleteItem = await budgetItem.findOneAndDelete({_id: id, userID: userID}).exec();
+        return deleteItem;
+    }catch(error){
+        console.error("Failed to delete budget item: ", error);
+        throw error;
+
+    }
+  }
+
+  //Update Budget Item
+  async function updateBudgetItem(id, update){
+    try{
+        const updateItem = await budgetItem.findByIdAndUpdate(
+            {_id: id},
+            {$set: update},
+            {new: true}
+        ).exec();
+        return updateItem;
+
+    }catch(error){
+        console.error('Failed to update budget item:', error);
+        throw error;
+
+    }
+  }
+
+
+module.exports = { get_user_by_username, 
+    create_user, 
+    create_Budget_Item, 
+    get_Budget_Item_UserID, 
+    get_Budget_Item__ItemID,
+    delete_budgetItem,
+    updateBudgetItem
+
+};

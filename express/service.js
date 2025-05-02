@@ -27,5 +27,26 @@ async function login(username, password) {
     return user._id;
 }
 
+async function add_Budget_Item(userID, value, category, description){
+     if (value <= 0){
+        throw new Error ('Value must be greater than zero.');
+     }
 
-module.exports = { register, login };
+     if (!userID){
+        throw new Error ('userID is required');
+     }
+
+     try{
+        const newItem = await db.create_Budget_Item(userID, value, category, description);
+        console.log ('Item created successfully!', newItem);
+        return newItem;
+
+     }catch (error){
+        console.error('Failed to create new budget item: ', error)
+        throw error;
+
+     }
+}
+
+
+module.exports = { register, login, add_Budget_Item };
