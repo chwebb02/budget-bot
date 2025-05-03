@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const Transaction = require('./models/transactionModel');
-const transaction = require("./models/transactionModel");
+
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
@@ -130,11 +130,101 @@ app.delete('/transaction/:transactionId', async (req, res) => {
     }
 
     try {
-        await deleteTransaction(transactionId);
-        res.status(200).send();
+        const removeTransaction = await service.deleteTransaction(transactionId);
+        res.status(200).send(removeTransaction);
     } catch (err) {
         let code = 500;
 
         res.status(code).send(err.message);
     }
 })
+
+
+app.post('/budgetItem/create', async (req, res) => {
+    const budgetItems = req.body;
+    if (!budgetItems){
+        res.status(400).send('Budget item not found');
+    }
+
+    try{
+        const createdBudgetItem = await service.addBudgetItem(budgetItems);
+        res.status(200).send(createdBudgetItem);
+
+    }catch (err){
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+});
+
+app.get('/user/:userId/budgetItems', async (req, res) => {
+    const userId = req.params.userId;
+        if (!userId) {
+            res.status(400).send('Please provide a valid user ID');
+        }
+
+    try{
+        const userByID = await service.getBudgetItemForUser(userId);
+        res.status(200).send(userByID);
+
+    }catch (err){
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+});
+
+app.get('/budgetItem/:budgetItemId', async (req, res) => {
+    const budgetItemId = req.params.budgetItemId;
+    
+    if (!budgetItemId) {
+        res.status(400).send('Please provide a valid budget item id');
+    }
+
+    try{
+        const getItem = await service.getBudgetItemByID(budgetItemId);
+        res.status(200).send(getItem);
+
+    }catch (err){
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+});
+
+app.put('/budgetItem/:budgetItemId', async (req, res) => {
+    const budgetItemId = req.params.budgetItemId;
+    const modify = req.body;
+    if (!modify) {
+        res.status(400).send('budget item not found');
+    }
+
+    try {
+        const updatedbudgetItem = await service.modifyBudgetItem(budgetItemId, modify);
+        res.status(200).send(updatedbudgetItem);
+       
+    } catch (err) {
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+});
+
+app.delete('/user/:userId/budgetItems/:budgetItemId', async (req, res) => {
+    const budgetItemId = req.params.budgetItemId;
+    const userId = req.params.userId;
+    if (!budgetItemId) {
+        res.status(400).send('Please provide a valid budget item id');
+    }
+
+    try {
+        const deleteItem = await service.deleteBudgetItem(budgetItemId, userId);
+        res.status(200).send(deleteItem);
+     
+    } catch (err) {
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+});
+
