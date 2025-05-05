@@ -118,11 +118,12 @@ async function deleteBudgetItems(id, userID){
             throw new Error('Budget item not found');
         }
 
-        return deletedItem;
+        return { success: true, data: deletedItem };;
         
 
     }catch(error){
         console.error('Failed to delete budget item', error);
+        throw error;
 
     }
 

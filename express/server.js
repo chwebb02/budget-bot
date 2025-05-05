@@ -213,13 +213,20 @@ app.put('/budgetItem/:budgetItemId', async (req, res) => {
 app.delete('/user/:userId/budgetItems/:budgetItemId', async (req, res) => {
     const budgetItemId = req.params.budgetItemId;
     const userId = req.params.userId;
-    if (!budgetItemId) {
-        res.status(400).send('Please provide a valid budget item id');
-    }
 
     try {
-        const deleteItem = await service.deleteBudgetItem(budgetItemId, userId);
-        res.status(200).send(deleteItem);
+        const deleteItem = await service.deleteBudgetItems(budgetItemId, userId);
+        if (deleteItem) {
+            res.status(200).json({ 
+            success: true, 
+            data: deleteItem 
+            });
+        } else {
+            res.status(404).json({ 
+            success: false, 
+            error: 'Item not found: please provide a valid budget item id' 
+            });
+        }
      
     } catch (err) {
         let code = 500;

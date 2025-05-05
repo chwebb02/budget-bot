@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TransactionList from '../components/TransactionList';
 import ChartCard from '../components/ChartCard';
 import BudgetSummary from '../components/BudgetSummary';
+import axios from 'axios';
 
 const mockTransactions = [
   { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
@@ -21,11 +22,33 @@ const mockBudgets = [
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
+  const [items, setItems] = useState([]);
+  const maxDisplay = 10; //limit for items displayed
+
+
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get('/user/68143c705514ce8fd0e54de9/budgetItems'); //hardcoded for testing purposes
+      setItems(response.data);
+    } catch (error) {
+      console.error('Failed to fetch items:', error);
+    }
+  };
+
+
+  useEffect( () => {
+    fetchItems();
+  }, []);
+
 
   useEffect(() => {
     setTransactions(mockTransactions);
   }, []);
 
+
+
+
+  
   const income = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
   const expenses = transactions.filter(t => t.amount < 0).reduce((a, b) => a + b.amount, 0);
   const balance = income + expenses;
@@ -65,6 +88,16 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+     
+      <h3>Budget Item Summary:</h3>
+      <ul className="item-list">
+      {items.slice(0, maxDisplay).map((item, index) => (      //slice puts a limit on what is displayed in dashboard
+          <li key={index}>
+            $ {item.value} - {item.category} - {item.description}
+          </li>
+        ))}
+      </ul>
+      
     </div>
   );
 };
