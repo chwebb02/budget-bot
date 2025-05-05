@@ -74,7 +74,7 @@ async function deleteTransaction(transactionId) {
 //Budget Item CRUD
 
 //Create a budget item
-async function create_Budget_Item(userID, value, category, description) {
+async function createBudgetItem(userID, value, category, description) {
     try {
       const newBudgetItem = new budgetItem({
         userID,
@@ -91,7 +91,7 @@ async function create_Budget_Item(userID, value, category, description) {
   }
 
   //Get a Budget Item by User ID
-  async function get_Budget_Item_UserID(userID) {
+  async function getBudgetItemUserID(userID) {
     try {
       const budgetItems = await budgetItem.find({userID}).exec();
       return budgetItems;
@@ -102,7 +102,7 @@ async function create_Budget_Item(userID, value, category, description) {
   }
 
   //Get a Budget Item by Budget ID
-  async function get_Budget_Item__ItemID(id) {
+  async function getBudgetItemID(id) {
     try {
       const budgetItems = await budgetItem.findOne({_id: id}).exec();
       return budgetItems;
@@ -114,7 +114,7 @@ async function create_Budget_Item(userID, value, category, description) {
  
 
   //Delete Budget Item
-  async function delete_budgetItem(id, userID){
+  async function deleteBudgetItem(id, userID){
     try{
         const deleteItem = await budgetItem.findOneAndDelete({_id: id, userID: userID}).exec();
         return deleteItem;
@@ -145,10 +145,10 @@ async function create_Budget_Item(userID, value, category, description) {
 
 module.exports = { get_user_by_username, 
     create_user, 
-    create_Budget_Item, 
-    get_Budget_Item_UserID, 
-    get_Budget_Item__ItemID,
-    delete_budgetItem,
+    createBudgetItem, 
+    getBudgetItemUserID, 
+    getBudgetItemID,
+    deleteBudgetItem,
     updateBudgetItem,
     createTransaction,
     getTransactionsForUser,
