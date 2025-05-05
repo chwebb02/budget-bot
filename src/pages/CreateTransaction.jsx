@@ -25,7 +25,7 @@ const CreateTransaction = () => {
     
     try {
       // Send form data to your backend
-      await api.post(API_ROUTES.transaction, formData);
+      await api.post(API_ROUTES.CreateTransaction, formData);
       alert('Transaction created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {

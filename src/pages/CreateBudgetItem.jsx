@@ -24,8 +24,7 @@ const CreateBudgetItem = () => {
     
     try {
       // Send form data to backend
-      await api.post(API_ROUTES.budgets, formData);
-
+      await api.post(API_ROUTES.CreateBudgetItem, formData);
       alert('Budget item created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {
