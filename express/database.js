@@ -41,34 +41,29 @@ async function create_user(username, hashed_password) {
     
 }
 
-//logout option?--requires authentication token
-
 // Transaction CRUD
 async function createTransaction(transaction) {
-    // Function stub, needs implemented
-    return await new Transaction({ transaction }).save();
+    return await new Transaction(transaction).save();
 }
 
 async function getTransactionsForUser(userId) {
-    // Function stub, needs implemented
-    return [];
+    return await Transaction.find({'userID': userId}).exec();
 }
 
 async function getTransactionById(transactionId) {
-    // Function stub, needs implemented
-    return null;
+    return await Transaction.findById(transactionId).exec();
 }
 
 async function updateTransaction(transactionId, transaction) {
-    // Function stub, needs implemented
-    return null;
+    await Transaction.findByIdAndUpdate(
+        {_id: transactionId},
+        {$set: transaction},
+        {new: true}
+    ).exec();
 }
 
 async function deleteTransaction(transactionId) {
-    // Function stub, needs implemented
-    // Does not need a return statement in final implementation, just
-    // throw error if operation fails
-    return null;
+    await Transaction.findByIdAndDelete(transactionId).exec();
 }
 
 //Budget Item CRUD
