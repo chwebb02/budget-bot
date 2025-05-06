@@ -10,7 +10,7 @@ import Header from './components/header';
 
 function App() {
   useEffect(() => {
-    document.title = 'BudgeBot';
+    document.title = 'BudgetBot';
   }, []);
 
   const navigate = useNavigate();

@@ -7,8 +7,9 @@ const CreateBudgetItem = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem("username") == null) {
-      navigate("/login");
+    const isLoggedIn = !!sessionStorage.getItem("username");
+    if (!isLoggedIn) {
+      navigate("/login", { replace: true });
     }
   }, [navigate]);
   
@@ -30,7 +31,7 @@ const CreateBudgetItem = () => {
     
     try {
       // Send form data to backend
-      await api.post(API_ROUTES.CreateBudgetItem, formData);
+      await api.post(API_ROUTES.createBudgetItem, formData);
       alert('Budget item created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {

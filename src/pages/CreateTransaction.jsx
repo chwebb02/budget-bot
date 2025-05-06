@@ -6,11 +6,12 @@ import api, { API_ROUTES } from '../api';
 const CreateTransaction = () => {
   const navigate = useNavigate();
 
-    useEffect(() => {
-      if (sessionStorage.getItem("username") == null) {
-        navigate("/login");
-      }
-    }, [navigate]);
+  useEffect(() => {
+    const isLoggedIn = !!sessionStorage.getItem("username");
+    if (!isLoggedIn) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
   
   const [formData, setFormData] = useState({
     description: '',
@@ -31,7 +32,7 @@ const CreateTransaction = () => {
     
     try {
       // Send form data to your backend
-      await api.post(API_ROUTES.CreateTransaction, formData);
+      await api.post(API_ROUTES.createTransaction, formData);
       alert('Transaction created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {
