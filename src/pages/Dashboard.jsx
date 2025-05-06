@@ -5,22 +5,6 @@ import BudgetSummary from '../components/BudgetSummary';
 import api, {API_ROUTES} from '../api';
 import {useNavigate}  from 'react-router-dom';
 
-const mockTransactions = [
-  { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
-  { id: 2, description: 'Salary', amount: 2000, category: 'Income', date: '2025-04-18' },
-  { id: 3, description: 'Coffee', amount: -5, category: 'Food', date: '2025-04-18' },
-  { id: 4, description: 'Gym', amount: -45, category: 'Health', date: '2025-04-17' },
-  { id: 5, description: 'Gas', amount: -30, category: 'Transport', date: '2025-04-17' },
-  { id: 6, description: 'Freelance Work', amount: 500, category: 'Income', date: '2025-04-15' }
-];
-
-const mockBudgets = [
-  { id: 1, category: 'Food', value: 400, description: 'Monthly groceries and dining' },
-  { id: 2, category: 'Housing', value: 1300, description: 'Rent and utilities' },
-  { id: 3, category: 'Transportation', value: 150, description: 'Gas and travel' },
-  { id: 4, category: 'Entertainment', value: 100, description: 'Movies and outings' }
-];
-
 const Dashboard = () => {
 
   const navigate = useNavigate();
@@ -50,30 +34,6 @@ const Dashboard = () => {
     if (userId) {
       fetchData();
     }
-
-    // const fetchTransactions = async () => {
-    //   try {
-    //     const response = await api.get(API_ROUTES.getUserTransactions, { params: { userId } });
-    //     setTransactions(response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching transactions:', error);
-    //   }
-    // };
-    //
-    // const fetchBudgets = async () => {
-    //   try {
-    //     const response = await api.get(API_ROUTES.getUserBudgetItems(), { params: { userId } });
-    //     const mapped = response.data.map(tx => ({
-    //       id: tx.id,
-    //       description: tx.description,
-    //       value: tx.value,
-    //       category: tx.category,
-    //       date: new Date(tx.date).toISOString().split('T')[0]
-    //     }));
-    //     setTransactions(mapped);
-    //   } catch (error) {
-    //     console.error('Error fetching transactions:', error);
-    //   }
   }, [userId]);
 
   const income = transactions.filter(t => t.value > 0).reduce((a, b) => a + b.value, 0);
