@@ -10,7 +10,10 @@ export const API_ROUTES = {
   getTransaction: (transactionId) => `transaction/${transactionId}`,
   updateTransaction: '/transaction',
   deleteTransaction: (transactionId) => `transaction/${transactionId}`,
-  budgets: '/api/budgets'
+  getUserBudgetItems: (userId) => `/user/${userId}/budgetItems`,
+  getBudgetItem: (budgetItemId) => `budgetItem/${budgetItemId}`,
+  updateBudgetItem: '/budgetItem',
+  deleteBudgetItem: (budgetItemId) => `transaction/${budgetItemId}`
 };
 
 const api = axios.create({

@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const Transaction = require('./models/transactionModel');
-
+const BudgetItem = require('./models/budgetItemModel');
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
