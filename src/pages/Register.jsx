@@ -15,11 +15,10 @@ const Register = () => {
     try {
       const response = await api.post(API_ROUTES.register, formData);
 
-      sessionStorage.setItem("username", formData.username);
-      sessionStorage.setItem("password", formData.password); 
+      sessionStorage.setItem("userID", response);
 
       alert('Registration successful!');
-      navigate('/Dashboard');
+      navigate('/');
     } catch (err) {
       console.error("Registration error:", err);
       alert('Registration failed.');

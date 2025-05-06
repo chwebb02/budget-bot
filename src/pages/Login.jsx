@@ -16,9 +16,7 @@ const Login = () => {
     try {
       const response = await api.post(API_ROUTES.login, formData);
     
-      // Store login data in sessionStorage
-      sessionStorage.setItem("username", formData.username);
-      sessionStorage.setItem("password", formData.password); 
+      sessionStorage.setItem("userID", response); 
     
       alert("Login successful!");
       navigate("/");
