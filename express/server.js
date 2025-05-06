@@ -28,6 +28,7 @@ app.post('/user/register', async (req, res) => {
     const {username, password} = req.body;
     if (!username || !password) {
         res.status(400).send('Username and password are required');
+        return
     }
 
     try {
@@ -45,6 +46,7 @@ app.post('/user/login', async (req, res) => {
     const {username, password} = req.body;
     if (!username || !password) {
         res.status(400).send('Username and password are required');
+        return
     }
 
     try {
@@ -63,6 +65,7 @@ app.post('/transaction/create', async (req, res) => {
     const transaction = new Transaction(req.body);
     if (!transaction) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -79,6 +82,7 @@ app.get('/user/:userId/transactions', async (req, res) => {
     const userId = req.params.userId;
     if (!userId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -95,6 +99,7 @@ app.get('/transaction/:transactionId', async (req, res) => {
     const transactionId = req.params.transactionId;
     if (!transactionId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -111,6 +116,7 @@ app.put('/transaction', async (req, res) => {
     const transaction = new Transaction(req.body);
     if (!transaction) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -127,6 +133,7 @@ app.delete('/transaction/:transactionId', async (req, res) => {
     const transactionId = req.params.transactionId;
     if (!transactionId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -144,6 +151,7 @@ app.post('/budgetItem/create', async (req, res) => {
     const budgetItem = new BudgetItem(req.body);
     if (!budgetItem) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -160,6 +168,7 @@ app.get('/user/:userId/budgetItems', async (req, res) => {
     const userId = req.params.userId;
     if (!userId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -176,6 +185,7 @@ app.get('/budgetItem/:budgetItemId', async (req, res) => {
     const budgetItemId = req.params.budgetItemId;
     if (!budgetItemId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -192,6 +202,7 @@ app.put('/budgetItem', async (req, res) => {
     const budgetItem = new BudgetItem(req.body);
     if (!budgetItem) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -208,6 +219,7 @@ app.delete('/budgetItem/:budgetItemId', async (req, res) => {
     const budgetItemId = req.params.budgetItemId;
     if (!budgetItemId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
