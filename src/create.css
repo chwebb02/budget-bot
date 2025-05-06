@@ -1,0 +1,106 @@
+.formContainer {
+    max-width: 500px;
+    width: 100%;
+    margin: 120px auto;
+    padding: 20px;
+    background-color: #e5e5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 5;
+  }
+
+
+  
+  .formContainer h2, .formContainer h3 {
+    color: #333;
+    white-space: nowrap;
+  }
+
+  .createHeader, .updateHeader{
+    padding-left: 40px;
+  }
+  
+  .budget-form {
+   display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    padding: 0px 45px;   
+  }
+  
+  .form-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown{
+    width: 84%;
+    padding: 9px 2px;
+  }
+
+
+  input[type="number"],
+  input[type="text"],
+  textarea {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #16a768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: fit-content;
+
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .tab-buttons {
+    position: absolute; 
+    top: 190px; 
+    right: 538px;
+    gap: 10px;
+    display: flex;
+  }
+  
+  .item-list {
+    list-style-type: none;
+    padding: 0px 45px;
+    margin-top: 5px;
+  }
+  
+  .budget-item-list {
+    margin: 0 auto;         
+    width: 100%;           
+    max-width: 280px;       
+  }
+  
+  .deleteButton {
+    display: block;
+    margin: 20px auto 0 auto;
+  }
+  
+  .deleteButton:hover{
+    background-color: rgb(222, 29, 29);
+  }
+
+  .buttonRow{
+    display: flex;
+    gap: 10px;
+  }
+
+
