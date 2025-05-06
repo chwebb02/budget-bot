@@ -25,19 +25,19 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (sessionStorage.getItem("username") == null) {
+    if (sessionStorage.getItem("userID") == null) {
       navigate("/login");
     }
   }, [navigate]);
   
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState([]);
-  const userId = localStorage.getItem('userId');
+  const userId = sessionStorage.getItem('userID');
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await api.get(API_ROUTES.TRANSACTIONS, { params: { userId } });
+        const response = await api.get(API_ROUTES.getUserTransactions, { params: { userId } });
         setTransactions(response.data);
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -46,7 +46,7 @@ const Dashboard = () => {
 
     const fetchBudgets = async () => {
       try {
-        const response = await api.get(API_ROUTES.BUDGETS, { params: { userId } });
+        const response = await api.get(API_ROUTES.getUserBudgetItems(), { params: { userId } });
         const mapped = response.data.map(tx => ({
           id: tx.id,
           description: tx.description,
