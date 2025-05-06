@@ -14,7 +14,7 @@ export const API_ROUTES = {
   getUserBudgetItems: (userId) => `/user/${userId}/budgetItems`,
   getBudgetItem: (budgetItemId) => `budgetItem/${budgetItemId}`,
   updateBudgetItem: '/budgetItem',
-  deleteBudgetItem: (budgetItemId) => `transaction/${budgetItemId}`
+  deleteBudgetItem: (budgetItemId) => `budgetItem/${budgetItemId}`
 };
 
 const api = axios.create({

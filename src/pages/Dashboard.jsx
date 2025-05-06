@@ -35,39 +35,49 @@ const Dashboard = () => {
   const userId = sessionStorage.getItem('userID');
 
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get(API_ROUTES.getUserTransactions, { params: { userId } });
-        setTransactions(response.data);
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
+        const transactionResponse = await api.get(API_ROUTES.getUserTransactions(userId))
+        const budgetItemResponse = await api.get(API_ROUTES.getUserBudgetItems(userId))
+
+        setTransactions(transactionResponse.data);
+        setBudgets(budgetItemResponse.data);
+      } catch (err) {
+        console.log('Error fetching data:', err);
       }
-    };
+    }
 
-    const fetchBudgets = async () => {
-      try {
-        const response = await api.get(API_ROUTES.getUserBudgetItems(), { params: { userId } });
-        const mapped = response.data.map(tx => ({
-          id: tx.id,
-          description: tx.description,
-          value: tx.value,
-          category: tx.category,
-          date: new Date(tx.date).toISOString().split('T')[0]
-        }));
-        setTransactions(mapped);
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
-      }
-  };
+    if (userId) {
+      fetchData();
+    }
 
-if (userId) {
-    fetchTransactions();
-    fetchBudgets();
-  }
-}, [userId]);
+    // const fetchTransactions = async () => {
+    //   try {
+    //     const response = await api.get(API_ROUTES.getUserTransactions, { params: { userId } });
+    //     setTransactions(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching transactions:', error);
+    //   }
+    // };
+    //
+    // const fetchBudgets = async () => {
+    //   try {
+    //     const response = await api.get(API_ROUTES.getUserBudgetItems(), { params: { userId } });
+    //     const mapped = response.data.map(tx => ({
+    //       id: tx.id,
+    //       description: tx.description,
+    //       value: tx.value,
+    //       category: tx.category,
+    //       date: new Date(tx.date).toISOString().split('T')[0]
+    //     }));
+    //     setTransactions(mapped);
+    //   } catch (error) {
+    //     console.error('Error fetching transactions:', error);
+    //   }
+  }, [userId]);
 
-  const income = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
-  const expenses = transactions.filter(t => t.amount < 0).reduce((a, b) => a + b.amount, 0);
+  const income = transactions.filter(t => t.value > 0).reduce((a, b) => a + b.value, 0);
+  const expenses = transactions.filter(t => t.value < 0).reduce((a, b) => a + b.value, 0);
   const balance = income + expenses;
 
   return (
@@ -95,7 +105,7 @@ if (userId) {
         {/* Left (2/3): Transactions + Budget */}
         <div className="lg:col-span-2 space-y-6">
           <TransactionList transactions={transactions.slice(0, 5)} />
-          <BudgetSummary budgets={mockBudgets} />
+          <BudgetSummary budgets={budgets} />
         </div>
 
         {/* Right (1/3): Chart */}
