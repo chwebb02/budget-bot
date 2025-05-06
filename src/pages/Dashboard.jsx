@@ -3,6 +3,7 @@ import TransactionList from '../components/TransactionList';
 import ChartCard from '../components/ChartCard';
 import BudgetSummary from '../components/BudgetSummary';
 import api, {API_ROUTES} from '../api';
+import {useNavigate}  from 'react-router-dom';
 
 const mockTransactions = [
   { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
@@ -21,6 +22,14 @@ const mockBudgets = [
 ];
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("username") == null) {
+      navigate("/login");
+    }
+  }, [navigate]);
+  
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState([]);
   const userId = localStorage.getItem('userId');

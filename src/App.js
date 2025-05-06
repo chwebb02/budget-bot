@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {Routes, Route, Link, useNavigate}  from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import CreateTransaction from './pages/CreateTransaction'; 
 import CreateBudgetItem from './pages/CreateBudgetItem';   
@@ -7,13 +7,14 @@ import Login from './pages/Login';
 import Register from './pages/Register';                        
 import ReactEffect, { useEffect } from 'react';
 import Header from './components/header';
-import navigate  from './pages/Login';
 
 function App() {
   useEffect(() => {
     document.title = 'BudgeBot';
   }, []);
 
+  const navigate = useNavigate();
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     sessionStorage.removeItem("username");
@@ -22,7 +23,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <>
       <Header /> {/* ✅ This shows BudgeBot on all pages */}
       <nav className="sticky top-0 w-full bg-gray-800 border-b border-gray-700 z-50">
   <div className="container mx-auto flex justify-between items-center p-4">
@@ -56,7 +57,7 @@ function App() {
             <Route path="/register" element={<Register />} />
         </Routes>
       </div>
-    </Router>
+    </>
   );
 }
 
