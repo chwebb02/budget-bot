@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api, { API_ROUTES } from '../api';
 
 const CreateBudgetItem = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("username") == null) {
+      navigate("/login");
+    }
+  }, [navigate]);
   
   const [formData, setFormData] = useState({
     category: '',

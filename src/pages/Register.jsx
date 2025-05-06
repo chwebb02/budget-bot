@@ -3,52 +3,60 @@ import { useNavigate } from 'react-router-dom';
 import api, { API_ROUTES } from '../api';
 
 const Register = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
-  const handleChange = e => {
-    setFormData(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post(API_ROUTES.register, formData);
-      alert('Account created! Please log in.');
-      navigate('/login');
+      const response = await api.post(API_ROUTES.register, formData);
+
+      sessionStorage.setItem("username", formData.username);
+      sessionStorage.setItem("password", formData.password); 
+
+      alert('Registration successful!');
+      navigate('/Dashboard');
     } catch (err) {
-      console.error(err);
-      alert('Error creating account.');
+      console.error("Registration error:", err);
+      alert('Registration failed.');
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
+      <h2 className="text-xl font-bold mb-4">Register</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium">Username</label>
+          <label className="block">Username:</label>
           <input
+            type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
-            className="border rounded w-full p-2"
+            className="w-full p-2 border rounded"
             required
           />
         </div>
         <div>
-          <label className="block font-medium">Password</label>
+          <label className="block">Password:</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="border rounded w-full p-2"
+            className="w-full p-2 border rounded"
             required
           />
         </div>
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          Create Account
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Register
         </button>
       </form>
     </div>
