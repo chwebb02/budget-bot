@@ -16,7 +16,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     sessionStorage.removeItem("username");
-    sessionStorage.removeItem("password"); // optional
+    sessionStorage.removeItem("password"); 
     navigate("/login");
   };
 
