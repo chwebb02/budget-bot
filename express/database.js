@@ -20,7 +20,7 @@ mongoose.connect(config.MONGO_URI, {
 //User CRUD
 async function getUserByUsername(username) {
     try{
-        return await User.findOne({ username });
+        return await User.findOne({ username: username }).exec();
     } catch(error){
         console.error("Username not found", error);
         throw error;
