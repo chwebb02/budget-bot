@@ -1,8 +1,10 @@
 import React from 'react';
 import {Routes, Route, Link, useNavigate}  from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import CreateTransaction from './pages/CreateTransaction'; 
-import CreateBudgetItem from './pages/CreateBudgetItem';   
+//import CreateTransaction from './pages/CreateTransaction'; 
+//import CreateBudgetItem from './pages/CreateBudgetItem';   
+import BudgetItemPageTabs from './pages/BudgetItemPage.jsx';
+import TransactionPageTabs from './pages/TransactionPage.jsx';
 import Login from './pages/Login'; 
 import Register from './pages/Register';                        
 import ReactEffect, { useEffect } from 'react';
@@ -17,8 +19,7 @@ function App() {
   
   const handleLogout = () => {
     localStorage.removeItem("token");
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("password"); 
+    sessionStorage.removeItem("userID")
     navigate("/login");
   };
 
@@ -50,8 +51,8 @@ function App() {
     <div className="pt-16 p-6">
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/createTransaction" element={<CreateTransaction />} />
-          <Route path="/createBudgetItem" element={<CreateBudgetItem />} />
+          <Route path="/createTransaction" element={<TransactionPageTabs />} />
+          <Route path="/createBudgetItem" element={<BudgetItemPageTabs />} />
           <Route path="/login" element={<Login />} />
             {/* Register route is here, but no nav link */}
             <Route path="/register" element={<Register />} />
