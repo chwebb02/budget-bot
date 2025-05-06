@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';                        
 import ReactEffect, { useEffect } from 'react';
 import Header from './components/header';
+import navigate  from './pages/Login';
 
 function App() {
   useEffect(() => {
@@ -30,11 +31,17 @@ function App() {
       <li><Link to="/createTransaction">Transactions</Link></li>
       <li><Link to="/createBudgetItem">Budget Items</Link></li>
     </ul>
-    <Link to="/login" className="text-white font-medium hover:underline">
-      Login
-    </Link>
-    <button onClick={handleLogout} 
-      className="ml-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">Logout</button> 
+    <div className="flex items-center space-x-4">
+  <Link to="/login" className="text-white font-medium hover:underline">
+    Login
+  </Link>
+  <button
+    onClick={handleLogout}
+    className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
+  >
+    Logout
+  </button>
+  </div>
   </div>
 </nav>
 

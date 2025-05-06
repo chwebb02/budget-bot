@@ -1,6 +1,12 @@
 # budget-bot
 Our final project for web dev
 
+Team members and roles: 
+Courtney Squellati:
+Brett Smith: 
+Chase Webb:
+Dominique Osthoff:
+
 React portion is in src/
 Express jumping off point at server.js
 
