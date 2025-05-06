@@ -24,7 +24,7 @@ function App() {
 
   return (
     <>
-      <Header /> {/* ✅ This shows BudgeBot on all pages */}
+      <Header /> {/* ✅ This shows BudgetBot on all pages */}
       <nav className="sticky top-0 w-full bg-gray-800 border-b border-gray-700 z-50">
   <div className="container mx-auto flex justify-between items-center p-4">
     <ul className="flex space-x-6 text-white font-medium">

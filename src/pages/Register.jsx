@@ -15,7 +15,8 @@ const Register = () => {
     try {
       const response = await api.post(API_ROUTES.register, formData);
 
-      sessionStorage.setItem("userID", response);
+      sessionStorage.setItem("username", formData.username);
+      sessionStorage.setItem("password", formData.password); 
 
       alert('Registration successful!');
       navigate('/');
