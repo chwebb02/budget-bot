@@ -13,10 +13,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(API_ROUTES.register, formData);
+      const userId = await api.post(API_ROUTES.register, formData);
 
-      sessionStorage.setItem("username", formData.username);
-      sessionStorage.setItem("password", formData.password); 
+      sessionStorage.setItem("userID", userId.data);
 
       alert('Registration successful!');
       navigate('/Dashboard');

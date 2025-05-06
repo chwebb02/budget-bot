@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import api, { API_ROUTES } from '../api';
 
 const CreateTransaction = () => {
   const navigate = useNavigate();
 
     useEffect(() => {
-      if (sessionStorage.getItem("username") == null) {
+      if (sessionStorage.getItem("userID") == null) {
         navigate("/login");
       }
     }, [navigate]);
   
   const [formData, setFormData] = useState({
+    userID: '',
     description: '',
-    amount: '',
+    value: 0,
     category: '',
     date: ''
   });
@@ -30,8 +30,10 @@ const CreateTransaction = () => {
     e.preventDefault();
     
     try {
+      formData.userID = sessionStorage.getItem("userID");
+
       // Send form data to your backend
-      await api.post(API_ROUTES.CreateTransaction, formData);
+      const transaction = await api.post(API_ROUTES.createTransaction, formData);
       alert('Transaction created!');
       navigate('/'); // Redirect to dashboard
     } catch (err) {

@@ -10,6 +10,7 @@ export const API_ROUTES = {
   getTransaction: (transactionId) => `transaction/${transactionId}`,
   updateTransaction: '/transaction',
   deleteTransaction: (transactionId) => `transaction/${transactionId}`,
+  createBudgetItem: '/budgetItem/create',
   getUserBudgetItems: (userId) => `/user/${userId}/budgetItems`,
   getBudgetItem: (budgetItemId) => `budgetItem/${budgetItemId}`,
   updateBudgetItem: '/budgetItem',
