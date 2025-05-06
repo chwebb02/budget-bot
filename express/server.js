@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const Transaction = require('./models/transactionModel');
-
+const BudgetItem = require('./models/budgetItemModel');
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
@@ -28,6 +28,7 @@ app.post('/user/register', async (req, res) => {
     const {username, password} = req.body;
     if (!username || !password) {
         res.status(400).send('Username and password are required');
+        return
     }
 
     try {
@@ -45,6 +46,7 @@ app.post('/user/login', async (req, res) => {
     const {username, password} = req.body;
     if (!username || !password) {
         res.status(400).send('Username and password are required');
+        return
     }
 
     try {
@@ -63,6 +65,7 @@ app.post('/transaction/create', async (req, res) => {
     const transaction = new Transaction(req.body);
     if (!transaction) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -79,6 +82,7 @@ app.get('/user/:userId/transactions', async (req, res) => {
     const userId = req.params.userId;
     if (!userId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -95,6 +99,7 @@ app.get('/transaction/:transactionId', async (req, res) => {
     const transactionId = req.params.transactionId;
     if (!transactionId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -111,6 +116,7 @@ app.put('/transaction', async (req, res) => {
     const transaction = new Transaction(req.body);
     if (!transaction) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -127,6 +133,7 @@ app.delete('/transaction/:transactionId', async (req, res) => {
     const transactionId = req.params.transactionId;
     if (!transactionId) {
         res.status(400).send('Malformed request');
+        return
     }
 
     try {
@@ -141,16 +148,16 @@ app.delete('/transaction/:transactionId', async (req, res) => {
 
 
 app.post('/budgetItem/create', async (req, res) => {
-    const budgetItems = req.body;
-    if (!budgetItems){
-        res.status(400).send('Budget item not found');
+    const budgetItem = new BudgetItem(req.body);
+    if (!budgetItem) {
+        res.status(400).send('Malformed request');
+        return
     }
 
-    try{
-        const createdBudgetItem = await service.addBudgetItem(budgetItems);
-        res.status(200).send(createdBudgetItem);
-
-    }catch (err){
+    try {
+        const savedBudgetItem = await service.createBudgetItem(budgetItem);
+        res.status(200).send(savedBudgetItem);
+    } catch (err) {
         let code = 500;
 
         res.status(code).send(err.message);
@@ -159,15 +166,15 @@ app.post('/budgetItem/create', async (req, res) => {
 
 app.get('/user/:userId/budgetItems', async (req, res) => {
     const userId = req.params.userId;
-        if (!userId) {
-            res.status(400).send('Please provide a valid user ID');
-        }
+    if (!userId) {
+        res.status(400).send('Malformed request');
+        return
+    }
 
-    try{
-        const userByID = await service.getBudgetItemForUser(userId);
-        res.status(200).send(userByID);
-
-    }catch (err){
+    try {
+        const budgetItems = await service.getUserBudgetItems(userId);
+        res.status(200).send(budgetItems);
+    } catch (err) {
         let code = 500;
 
         res.status(code).send(err.message);
@@ -176,33 +183,14 @@ app.get('/user/:userId/budgetItems', async (req, res) => {
 
 app.get('/budgetItem/:budgetItemId', async (req, res) => {
     const budgetItemId = req.params.budgetItemId;
-    
     if (!budgetItemId) {
-        res.status(400).send('Please provide a valid budget item id');
-    }
-
-    try{
-        const getItem = await service.getBudgetItemByID(budgetItemId);
-        res.status(200).send(getItem);
-
-    }catch (err){
-        let code = 500;
-
-        res.status(code).send(err.message);
-    }
-});
-
-app.put('/budgetItem/:budgetItemId', async (req, res) => {
-    const budgetItemId = req.params.budgetItemId;
-    const modify = req.body;
-    if (!modify) {
-        res.status(400).send('budget item not found');
+        res.status(400).send('Malformed request');
+        return
     }
 
     try {
-        const updatedbudgetItem = await service.modifyBudgetItem(budgetItemId, modify);
-        res.status(200).send(updatedbudgetItem);
-       
+        const budgetItem = await service.getBudgetItemById(budgetItemId);
+        res.status(200).send(budgetItem);
     } catch (err) {
         let code = 500;
 
@@ -210,17 +198,16 @@ app.put('/budgetItem/:budgetItemId', async (req, res) => {
     }
 });
 
-app.delete('/user/:userId/budgetItems/:budgetItemId', async (req, res) => {
-    const budgetItemId = req.params.budgetItemId;
-    const userId = req.params.userId;
-    if (!budgetItemId) {
-        res.status(400).send('Please provide a valid budget item id');
+app.put('/budgetItem', async (req, res) => {
+    const budgetItem = new BudgetItem(req.body);
+    if (!budgetItem) {
+        res.status(400).send('Malformed request');
+        return
     }
 
     try {
-        const deleteItem = await service.deleteBudgetItem(budgetItemId, userId);
-        res.status(200).send(deleteItem);
-     
+        const updatedBudgetItem = await service.updateBudgetItem(budgetItem);
+        res.status(200).send(updatedBudgetItem);
     } catch (err) {
         let code = 500;
 
@@ -228,3 +215,19 @@ app.delete('/user/:userId/budgetItems/:budgetItemId', async (req, res) => {
     }
 });
 
+app.delete('/budgetItem/:budgetItemId', async (req, res) => {
+    const budgetItemId = req.params.budgetItemId;
+    if (!budgetItemId) {
+        res.status(400).send('Malformed request');
+        return
+    }
+
+    try {
+        const removeBudgetItem = await service.deleteBudgetItem(budgetItemId);
+        res.status(200).send(removeBudgetItem);
+    } catch (err) {
+        let code = 500;
+
+        res.status(code).send(err.message);
+    }
+})
