@@ -204,7 +204,7 @@ app.put('/budgetItem', async (req, res) => {
     }
 });
 
-app.delete('/budetItem/:budgetItemId', async (req, res) => {
+app.delete('/budgetItem/:budgetItemId', async (req, res) => {
     const budgetItemId = req.params.budgetItemId;
     if (!budgetItemId) {
         res.status(400).send('Malformed request');
