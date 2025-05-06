@@ -13,6 +13,13 @@ function App() {
     document.title = 'BudgeBot';
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("password"); // optional
+    navigate("/login");
+  };
+
   return (
     <Router>
       <Header /> {/* ✅ This shows BudgeBot on all pages */}
@@ -26,6 +33,8 @@ function App() {
     <Link to="/login" className="text-white font-medium hover:underline">
       Login
     </Link>
+    <button onClick={handleLogout} 
+      className="ml-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">Logout</button> 
   </div>
 </nav>
 

@@ -14,12 +14,18 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await api.post(API_ROUTES.login, formData);
-      navigate('/');
+      const response = await api.post(API_ROUTES.login, formData);
+    
+      // Store login data in sessionStorage
+      sessionStorage.setItem("username", formData.username);
+      sessionStorage.setItem("password", formData.password); 
+    
+      alert("Login successful!");
+      navigate("/");
     } catch (err) {
-      console.error(err);
-      alert('Invalid credentials');
-    }
+      console.error("Login error:", err);
+      alert("Error logging in.");
+    }    
   };
 
   return (
