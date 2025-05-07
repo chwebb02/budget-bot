@@ -8,7 +8,7 @@ const ChartCard = ({ transactions }) => {
   // Calculate category sums
   const categorySums = {};
   transactions.forEach((t) => {
-    if (!t.category || typeof t.value !== 'number') return;
+    if (!t.category || typeof t.value !== 'number'|| t.value >=0) return;
     const key = t.category;
     categorySums[key] = (categorySums[key] || 0) + Math.abs(t.value);
   });
