@@ -9,6 +9,6 @@ Team members and roles:
 
 React portion is in src/
 
-Express jumping off point at server.js
+Express jumping off point at express/server.js
 
 ## YouTube Link
