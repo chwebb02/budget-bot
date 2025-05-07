@@ -13,12 +13,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userId = await api.post(API_ROUTES.register, formData);
+      const response = await api.post(API_ROUTES.register, formData);
 
-      sessionStorage.setItem("userID", userId.data);
+      sessionStorage.setItem("userID", response.data);
 
       alert('Registration successful!');
-      navigate('/Dashboard');
+      navigate('/');
     } catch (err) {
       console.error("Registration error:", err);
       alert('Registration failed.');
