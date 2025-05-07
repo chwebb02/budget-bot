@@ -1,31 +1,64 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {Routes, Route, Link, useNavigate}  from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import CreateTransaction from './pages/CreateTransaction'; // create soon
-import CreateBudgetItem from './pages/CreateBudgetItem';   // create soon
-import Login from './pages/Login';                         // create soon
+//import CreateTransaction from './pages/CreateTransaction'; 
+//import CreateBudgetItem from './pages/CreateBudgetItem';   
+import BudgetItemPageTabs from './pages/BudgetItemPage.jsx';
+import TransactionPageTabs from './pages/TransactionPage.jsx';
+import Login from './pages/Login'; 
+import Register from './pages/Register';                        
+import ReactEffect, { useEffect } from 'react';
+import Header from './components/header';
 
 function App() {
-  return (
-    <Router>
-      <nav className="bg-gray-800 p-4">
-        <ul className="flex space-x-4 text-white">
-          <li><Link to="/">Dashboard</Link></li>
-          <li><Link to="/createTransaction">Add Transaction</Link></li>
-          <li><Link to="/createBudgetItem">Add Budget Item</Link></li>
-          <li><Link to="/login">Login</Link></li>
-        </ul>
-      </nav>
+  useEffect(() => {
+    document.title = 'BudgetBot';
+  }, []);
 
-      <div className="p-6">
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("userID")
+    navigate("/login");
+  };
+
+  return (
+    <>
+      <Header /> {/* ✅ This shows BudgetBot on all pages */}
+      <nav className="sticky top-0 w-full bg-gray-800 border-b border-gray-700 z-50">
+  <div className="container mx-auto flex justify-between items-center p-4">
+    <ul className="flex space-x-6 text-white font-medium">
+      <li><Link to="/">Dashboard</Link></li>
+      <li><Link to="/createTransaction">Transactions</Link></li>
+      <li><Link to="/createBudgetItem">Budget Items</Link></li>
+    </ul>
+    <div className="flex items-center space-x-4">
+  <Link to="/login" className="text-white font-medium hover:underline">
+    Login
+  </Link>
+  <button
+    onClick={handleLogout}
+    className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
+  >
+    Logout
+  </button>
+  </div>
+  </div>
+</nav>
+
+
+    <div className="pt-16 p-6">
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/createTransaction" element={<CreateTransaction />} />
-          <Route path="/createBudgetItem" element={<CreateBudgetItem />} />
+          <Route path="/createTransaction" element={<TransactionPageTabs />} />
+          <Route path="/createBudgetItem" element={<BudgetItemPageTabs />} />
           <Route path="/login" element={<Login />} />
+            {/* Register route is here, but no nav link */}
+            <Route path="/register" element={<Register />} />
         </Routes>
       </div>
-    </Router>
+    </>
   );
 }
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api, { API_ROUTES } from '../api';
+import { useNavigate } from 'react-router-dom';
 
-function CreateTransaction() {
+function NewTransaction({ onAddTransaction }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,36 +11,34 @@ function CreateTransaction() {
     }
   }, [navigate]);
 
-  const [formData, setFormData] = useState({
-    description: '',
-    value: '',          // ✅ Changed from 'amount' to 'value'
-    category: '',
-    date: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const [value, setValue] = useState('');
+  const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const userID = sessionStorage.getItem("userID");
-      const payload = {
-        ...formData,
-        userID
-      };
+      const details = await api.post(API_ROUTES.createTransaction, {
+        userID,
+        value,
+        category,
+        description,
+        date,
+      });
 
-      await api.post(API_ROUTES.createTransaction, payload);
-
+      setValue('');
+      setCategory('');
+      setDescription('');
+      setDate('');
       alert('Transaction created successfully!');
-      navigate('/');
-    } catch (err) {
-      console.error('Error creating transaction:', err);
-      alert('Failed to create transaction.');
+
+      if (onAddTransaction) {
+        onAddTransaction(details.data);
+      }
+    } catch (error) {
+      console.error('Failed to create transaction:', error);
     }
   };
 
@@ -49,23 +47,20 @@ function CreateTransaction() {
       <h2 className="text-xl font-bold text-gray-800 mb-4 pl-10">Create a Transaction</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-[45px]">
         <div className="flex flex-col">
-          <label className="block font-medium">Amount ($)</label>
           <input
             type="number"
-            name="value"
-            value={formData.value}
-            onChange={handleChange}
+            placeholder="Value ($)"
+            value={value}
+            onChange={e => setValue(e.target.value)}
             className="p-2 text-base border border-gray-300 rounded w-[80%]"
             required
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="block font-medium">Category</label>
           <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
+            value={category}
+            onChange={e => setCategory(e.target.value)}
             className="w-[84%] px-1 py-[9px] border rounded"
             required
           >
@@ -88,24 +83,21 @@ function CreateTransaction() {
         </div>
 
         <div className="flex flex-col">
-          <label className="block font-medium">Description</label>
           <input
             type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
+            placeholder="Description"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
             className="p-2 text-base border border-gray-300 rounded w-[80%]"
             required
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="block font-medium">Date</label>
           <input
             type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
+            value={date}
+            onChange={e => setDate(e.target.value)}
             className="p-2 text-base border border-gray-300 rounded w-[80%]"
             required
           />
@@ -115,11 +107,11 @@ function CreateTransaction() {
           type="submit"
           className="px-4 py-2 bg-green-600 text-white rounded text-base hover:bg-green-700 w-fit"
         >
-          Submit
+          Create
         </button>
       </form>
     </div>
   );
 }
 
-export default CreateTransaction;
+export default NewTransaction;

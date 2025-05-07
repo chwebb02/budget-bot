@@ -2,32 +2,42 @@ import React, { useState, useEffect } from 'react';
 import TransactionList from '../components/TransactionList';
 import ChartCard from '../components/ChartCard';
 import BudgetSummary from '../components/BudgetSummary';
-
-const mockTransactions = [
-  { id: 1, description: 'Groceries', amount: -50, category: 'Food', date: '2025-04-20' },
-  { id: 2, description: 'Salary', amount: 2000, category: 'Income', date: '2025-04-18' },
-  { id: 3, description: 'Coffee', amount: -5, category: 'Food', date: '2025-04-18' },
-  { id: 4, description: 'Gym', amount: -45, category: 'Health', date: '2025-04-17' },
-  { id: 5, description: 'Gas', amount: -30, category: 'Transport', date: '2025-04-17' },
-  { id: 6, description: 'Freelance Work', amount: 500, category: 'Income', date: '2025-04-15' }
-];
-
-const mockBudgets = [
-  { id: 1, category: 'Food', value: 400, description: 'Monthly groceries and dining' },
-  { id: 2, category: 'Housing', value: 1300, description: 'Rent and utilities' },
-  { id: 3, category: 'Transportation', value: 150, description: 'Gas and travel' },
-  { id: 4, category: 'Entertainment', value: 100, description: 'Movies and outings' }
-];
+import api, {API_ROUTES} from '../api';
+import {useNavigate}  from 'react-router-dom';
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("userID") == null) {
+      navigate("/login");
+    }
+  }, [navigate]);
+  
   const [transactions, setTransactions] = useState([]);
+  const [budgets, setBudgets] = useState([]);
+  const userId = sessionStorage.getItem('userID');
 
   useEffect(() => {
-    setTransactions(mockTransactions);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const transactionResponse = await api.get(API_ROUTES.getUserTransactions(userId))
+        const budgetItemResponse = await api.get(API_ROUTES.getUserBudgetItems(userId))
 
-  const income = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
-  const expenses = transactions.filter(t => t.amount < 0).reduce((a, b) => a + b.amount, 0);
+        setTransactions(transactionResponse.data);
+        setBudgets(budgetItemResponse.data);
+      } catch (err) {
+        console.log('Error fetching data:', err);
+      }
+    }
+
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
+
+  const income = transactions.filter(t => t.value > 0).reduce((a, b) => a + b.value, 0);
+  const expenses = transactions.filter(t => t.value < 0).reduce((a, b) => a + b.value, 0);
   const balance = income + expenses;
 
   return (
@@ -55,7 +65,7 @@ const Dashboard = () => {
         {/* Left (2/3): Transactions + Budget */}
         <div className="lg:col-span-2 space-y-6">
           <TransactionList transactions={transactions.slice(0, 5)} />
-          <BudgetSummary budgets={mockBudgets} />
+          <BudgetSummary budgets={budgets} />
         </div>
 
         {/* Right (1/3): Chart */}
@@ -67,6 +77,6 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
