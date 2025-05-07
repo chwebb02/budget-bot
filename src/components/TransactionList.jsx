@@ -8,8 +8,8 @@ const TransactionList = ({ transactions }) => {
         {transactions.map((t) => (
           <li key={t.id} className="border-b py-2 flex justify-between">
             <span>{t.description}</span>
-            <span className={t.amount < 0 ? 'text-red-600' : 'text-green-600'}>
-              ${t.amount.toFixed(2)}
+            <span className={t.value < 0 ? 'text-red-600' : 'text-green-600'}>
+              ${t.value.toFixed(2)}
             </span>
           </li>
         ))}
