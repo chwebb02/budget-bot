@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const response = await api.post(API_ROUTES.login, formData);
     
-      sessionStorage.setItem("userID", response);
+      sessionStorage.setItem("userID", response.data);
     
       alert("Login successful!");
       navigate("/");
