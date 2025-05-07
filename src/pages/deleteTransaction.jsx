@@ -15,26 +15,23 @@ function DeleteTransaction() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Fetch transactions
   useEffect(() => {
     fetchTransactions();
-    }, []);
+  }, []);
 
-    const fetchTransactions = async () => {
+  const fetchTransactions = async () => {
     const userID = sessionStorage.getItem("userID");
     if (!userID) return;
     try {
-        const response = await api.get(API_ROUTES.getUserTransactions(userID));
-        setTransactions(response.data);
+      const response = await api.get(API_ROUTES.getUserTransactions(userID));
+      setTransactions(response.data);
     } catch (err) {
-        console.error('Failed to fetch transactions:', err);
+      console.error('Failed to fetch transactions:', err);
     }
-    };
+  };
 
-
-  // Single selection handling
   const handleCheckboxChange = (id) => {
-    setSelectedIds(prev => prev.includes(id) ? [] : [id]);
+    setSelectedIds((prev) => (prev.includes(id) ? [] : [id]));
   };
 
   const handleDelete = async () => {
@@ -44,7 +41,7 @@ function DeleteTransaction() {
 
     try {
       await api.delete(API_ROUTES.deleteTransaction(transactionId));
-      setTransactions(prev => prev.filter(t => t._id !== transactionId));
+      setTransactions((prev) => prev.filter((t) => t._id !== transactionId));
       setSelectedIds([]);
       alert('Transaction deleted successfully!');
     } catch (err) {
@@ -56,29 +53,32 @@ function DeleteTransaction() {
   };
 
   return (
-    <div className='container'>
-      <div className='transaction-list'>
-        <h2>Choose a Transaction to Delete</h2>
-        {transactions.length === 0
-            ? null
-            : transactions.map((transaction) => (
-              <div key={transaction._id} className='all-transactions'>
-                <input
-                  type='checkbox'
-                  checked={selectedIds.includes(transaction._id)}
-                  onChange={() => handleCheckboxChange(transaction._id)}
-                  disabled={isDeleting}
-                />
-                ${transaction.value} - {transaction.category} - {transaction.description} - 
-                {transaction.date?.substring(0,10)}
-              </div>
-            ))
-        }
+    <div className="max-w-xl mx-auto mt-16 p-6 bg-white rounded shadow">
+      <h2 className="text-lg font-bold mb-4">Choose a Transaction to Delete</h2>
+      <div className="space-y-2 mb-4">
+        {transactions.length === 0 ? (
+          <p className="text-gray-500">No transactions found.</p>
+        ) : (
+          transactions.map((transaction) => (
+            <label key={transaction._id} className="flex items-center gap-2 text-sm text-gray-800">
+              <input
+                type="checkbox"
+                checked={selectedIds.includes(transaction._id)}
+                onChange={() => handleCheckboxChange(transaction._id)}
+                disabled={isDeleting}
+              />
+              <span>
+                ${transaction.value} - {transaction.category} - {transaction.description} -{' '}
+                {transaction.date?.substring(0, 10)}
+              </span>
+            </label>
+          ))
+        )}
       </div>
-
-      <button className="deleteButton"
+      <button
         onClick={handleDelete}
         disabled={selectedIds.length !== 1 || isDeleting}
+        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50"
       >
         {isDeleting ? 'Deleting...' : 'Delete Transaction'}
       </button>
